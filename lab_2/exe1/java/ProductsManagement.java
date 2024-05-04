@@ -5,7 +5,7 @@ public class ProductsManagement {
     public static void main(String[] args) {
         String envPath = System.getenv("PRODUCT_FILE_PATH");
         if (envPath == null) {
-        throw new RuntimeException("Environment variable does not exists!");
+            throw new RuntimeException("Environment variable does not exists!");
         }
         BufferedReader reader = null;
         String line = null;
