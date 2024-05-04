@@ -1,0 +1,17 @@
+[
+        {
+                "filepath": "./420-0101.080.wav",
+                "duration": 6.66,
+                "filesize": "15MB"
+        },
+        {
+                "filepath": "./0000.000-0017.100.wav",
+                "duration": 17.1,
+                "filesize": "12MB"
+        },
+        {
+                "filepath": "./123.000-0017.100.wav",
+                "duration": 50.1,
+                "filesize": "17MB"
+        }
+]
