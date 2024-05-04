@@ -3,12 +3,12 @@ import java.util.concurrent.TimeUnit;
 
 public class SoundLevelMonitor {
     public static class RangeChecker {
-        private static final int LOW_MIN = 40;
-        private static final int LOW_MAX = 60;
-        private static final int MEDIUM_MIN = 60;
-        private static final int MEDIUM_MAX = 80;
-    
-        public String checkLevel(int number) {
+        private static final int LOW_MIN = Integer.parseInt(System.getenv("LOW"));
+        private static final int LOW_MAX = Integer.parseInt(System.getenv("MEDIUM"));
+        private static final int MEDIUM_MIN = Integer.parseInt(System.getenv("MEDIUM"));
+        private static final int MEDIUM_MAX = Integer.parseInt(System.getenv("MAX"));
+
+        public String checkLevel(double number) {
             if (number >= LOW_MIN && number <= LOW_MAX) {
                 return "Low";
             } else if (number > LOW_MAX && number <= MEDIUM_MAX) {
@@ -20,18 +20,19 @@ public class SoundLevelMonitor {
             }
         }
     }
+
     public static void main(String[] args) {
         BufferedWriter writer = null;
         BufferedReader reader = null;
         String line = null;
         try {
-            writer = new BufferedWriter(new FileWriter("data/noisepollution.txt"));
+            writer = new BufferedWriter(new FileWriter("/usr/src/app/data/noisepollution.txt"));
 
             while (true) {
+                reader = new BufferedReader(new FileReader("/usr/src/app/data/soundlevel.txt"));
                 int sum = 0;
                 int counter = 0;
-                reader = new BufferedReader(new InputStreamReader(new FileInputStream("../SoundLevelSensor/data/soundlevel.txt")));
-                while ((line = reader.readLine())!=null) {
+                while ((line = reader.readLine()) != null) {
                     String[] levels = line.split(" ");
                     for (String level : levels) {
                         sum += Integer.parseInt(level);
@@ -41,10 +42,9 @@ public class SoundLevelMonitor {
                 double avg = (double) sum / counter;
 
                 RangeChecker rangeChecker = new RangeChecker();
-                String level = rangeChecker.checkLevel((int) avg);
-        
+                String level = rangeChecker.checkLevel(avg);
+
                 writer.write(level);
-        
                 writer.write(" ");
                 writer.flush();
                 TimeUnit.SECONDS.sleep(30);
@@ -55,6 +55,9 @@ public class SoundLevelMonitor {
             try {
                 if (writer != null) {
                     writer.close();
+                }
+                if (reader != null) {
+                    reader.close();
                 }
             } catch (IOException e) {
                 e.printStackTrace();

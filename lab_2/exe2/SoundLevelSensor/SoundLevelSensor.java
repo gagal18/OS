@@ -6,7 +6,7 @@ public class SoundLevelSensor {
     public static void main(String[] args) {
         BufferedWriter writer = null;
         try {
-            writer = new BufferedWriter(new FileWriter("data/soundlevel.txt"));
+            writer = new BufferedWriter(new FileWriter("/usr/src/app/data/soundlevel.txt"));
 
             Random random = new Random();
 

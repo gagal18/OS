@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  sound_level_monitor:
+    image: sound_level_monitor:latest
+    build: ./SoundLevelMonitor
+    environment:
+      LOW: 40
+      MEDIUM: 60
+      MAX: 80
+    networks:
+      - city-noisepollution-network
+    volumes:
+      - soundlevel:/usr/src/app/data
+      - noisepollution:/usr/src/app/data
+
+  sound_level_sensor:
+    image: sound_level_sensor:latest
+    build: ./SoundLevelSensor
+    networks:
+      - city-noisepollution-network
+    volumes:
+      - soundlevel:/usr/src/app/data
+      - noisepollution:/usr/src/app/data
+
+networks:
+  city-noisepollution-network:
+    driver: bridge
+volumes:
+  soundlevel:
+  noisepollution:
