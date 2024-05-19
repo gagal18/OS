@@ -41,7 +41,8 @@ public class UDPClient extends Thread {
                     socket.receive(packet);
                     String recievedPacket = new String(packet.getData(), 0, packet.getLength());
                     System.out.println(recievedPacket);
-                    if(recievedPacket.equals("logged out")){
+                    String spl[] = recievedPacket.split(": ");
+                    if(spl[1].equals("logged out")){
                         socket.close();
                         Thread.currentThread().interrupt();
                         break;

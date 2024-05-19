@@ -24,7 +24,6 @@ public class UDPServer extends Thread {
         while (true) {
             try {
                 socket.receive(packet);
-                System.out.println(packet.getLength());
                 String received = new String(packet.getData(), 0, packet.getLength());
                 System.out.println("RECEIVED: " + received);
                 if(received.equals("login")) {
@@ -33,7 +32,7 @@ public class UDPServer extends Thread {
                 if(received.equals("logout")) {
                     received = "logged out";
                 }
-                byte[] sendData = received.getBytes();
+                byte[] sendData = new String("echo: "+received).getBytes();
                 
                 DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, packet.getAddress(), packet.getPort());
                 packet.setData(buffer);                
