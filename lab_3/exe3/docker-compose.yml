@@ -1,0 +1,49 @@
+version: '3'
+
+services:
+  tcp-server:
+    image: tcp-server:latest
+    build: ./TCP/Server
+    ports:
+      - "7000:7000"
+    networks:
+      - tcp-server-client-private-network
+
+  tcp-client:
+    image: tcp-client:latest
+    build: ./TCP/Client
+    environment:
+      - SERVER_NAME=tcp-server
+      - SERVER_PORT=7000
+    deploy:
+      replicas: 5 
+    networks:
+      - tcp-server-client-private-network
+    depends_on:
+      - tcp-server
+
+  udp-server:
+    image: udp-server:latest
+    build: ./UDP/Server
+    ports:
+      - "4445:4445"
+    networks:
+      - udp-server-client-private-network
+
+  udp-client:
+    image: udp-client:latest
+    build: ./UDP/Client
+    environment:
+      - SERVER_NAME=udp-server
+      - SERVER_PORT=4445
+    deploy:
+      replicas: 5 
+    networks:
+      - udp-server-client-private-network
+    depends_on:
+      - udp-server
+networks:
+  tcp-server-client-private-network:
+    driver: bridge  
+  udp-server-client-private-network:
+    driver: bridge
